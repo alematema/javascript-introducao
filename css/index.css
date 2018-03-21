@@ -8,7 +8,7 @@ body{
 }
 
 header{
-	background-color: #333;
+	background-color: #666;
 	height: 3em;
 	color: #FFF;
 	margin-bottom: 1em;
@@ -72,11 +72,11 @@ th{
 }
 
 tbody tr:nth-child(even){
-	background-color: lightblue;
+	background-color: #bbb;
 }
 
 tbody tr:nth-child(odd){
-	background-color: skyblue;
+	background-color: #ddd;
 }
 
 label{
