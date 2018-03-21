@@ -33,7 +33,7 @@ header .container:before{
 }
 
 .container{
-	width: 60%;
+	width: 40%;
 	height: 100%;
 	margin: 0 auto;
 }
@@ -80,13 +80,14 @@ tbody tr:focus {
 		font-weight: bold;
 		font-size: 1.1em;
 		color: white;
-		text-shadow: -0.1em 1px 4px black;
+		text-shadow: -0.1em 4px 2px black;
 		background-color: #777;
 }
 
 tbody tr:hover .info-imc,
 tbody tr:focus .info-imc{
-		color: #555;
+	  text-shadow: -0.1em 0.1em -0.1em 0.1em 1px 2px #333;
+		color: white;
 }
 
 tbody tr:nth-child(even){

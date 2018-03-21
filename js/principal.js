@@ -1,5 +1,5 @@
 var titulo = document.querySelector('.titulo');
-titulo.textContent = 'Aparecida Nutricionista';
+titulo.textContent = 'Edna Nutricionista';
 
 
 //Cálculo do IMC (indice massa corpo)
