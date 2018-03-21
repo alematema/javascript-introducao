@@ -33,7 +33,7 @@ header .container:before{
 }
 
 .container{
-	width: 40%;
+	width: 60%;
 	height: 100%;
 	margin: 0 auto;
 }
@@ -52,7 +52,7 @@ section h2{
 }
 
 table{
-	
+
 	width: 100%;
 	margin-bottom : .5em;
     table-layout: fixed;
@@ -68,18 +68,29 @@ td, th {
 	border: 1px solid #ccc;
 	text-align: center;
 	border-radius: 3px;
+	vertical-align: middle;
 }
 
 th{
 	font-weight: bold;
 	background-color: #EEE;
+
 }
 
-tbody tr:hover ,
+tbody tr:hover,
 tbody tr:focus {
 		font-weight: bold;
 		font-size: 1.1em;
 		color: white;
+		text-shadow: -0.1em 4px 2px black;
+		background-color: #777;
+}
+
+tbody tr:hover .bad-info,
+tbody tr:focus .bad-info {
+		font-weight: bold;
+		font-size: 1.1em;
+		color: lightpink;
 		text-shadow: -0.1em 4px 2px black;
 		background-color: #777;
 }
@@ -150,6 +161,12 @@ button[disabled=disabled], button:disabled {
   background-color: gray;
 	border-color: darkgray;
 
+}
+
+.bad-info{
+  background-color: red;
+	color:white;
+	font-weight: bold;
 }
 
 .adicionar-paciente{
