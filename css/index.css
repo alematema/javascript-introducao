@@ -58,6 +58,10 @@ table{
     table-layout: fixed;
 }
 
+tbody{
+	border-radius: 3px;
+}
+
 td, th {
 	padding: .7em;
 	margin: 0;
@@ -69,6 +73,20 @@ td, th {
 th{
 	font-weight: bold;
 	background-color: #EEE;
+}
+
+tbody tr:hover ,
+tbody tr:focus {
+		font-weight: bold;
+		font-size: 1.1em;
+		color: white;
+		text-shadow: -0.1em 1px 4px black;
+		background-color: #777;
+}
+
+tbody tr:hover .info-imc,
+tbody tr:focus .info-imc{
+		color: #555;
 }
 
 tbody tr:nth-child(even){
