@@ -55,13 +55,22 @@ function calculaImcDo(paciente){
 }
 function handleDadosInvalidos(paciente,erros){
 
-  paciente.style.backgroundColor='lightcoral';
+  paciente.classList.add('paciente-invalido');
+  var tds = paciente.getElementsByTagName('td');
+  console.log(tds);
+  for(var i=0;i<tds.length;i++){
+    tds[i].classList.add('paciente-invalido');
+  }
+  //paciente.style.backgroundColor='lightcoral';
   var msg='';
 
   for(var i = 0; i < erros.classes.length; i++){
 
     msg+=erros.messages[i];
-    paciente.querySelector(erros.classes[i]).className='bad-info';
+
+    paciente.querySelector(erros.classes[i]).classList.remove('paciente-invalido');
+    paciente.querySelector(erros.classes[i]).classList.add('bad-info');
+
     if(i<erros.classes.length-1){//poe virgula até a penultima palavra
       msg+=',';
     }else{// ajusta singular ou plural da mensagem, dependendo do numero de erros
