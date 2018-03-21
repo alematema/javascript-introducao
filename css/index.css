@@ -36,6 +36,7 @@ header .container:before{
 	width: 60%;
 	height: 100%;
 	margin: 0 auto;
+	border-radius: 5px;
 }
 
 section{
@@ -56,10 +57,6 @@ table{
 	width: 100%;
 	margin-bottom : .5em;
     table-layout: fixed;
-}
-
-tbody{
-	border-radius: 3px;
 }
 
 td, th {
@@ -92,7 +89,7 @@ tbody tr:focus .bad-info {
 		font-size: 1.1em;
 		color: lightpink;
 		text-shadow: -0.1em 4px 2px black;
-		background-color: #777;
+		background-color: red;
 }
 
 tbody tr:hover .info-imc,
