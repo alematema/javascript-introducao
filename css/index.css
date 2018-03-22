@@ -212,6 +212,9 @@ button[disabled=disabled], button:disabled {
 .paciente-invalido{
   background-color: lightcoral;
 }
+.paciente-valido{
+  background-color: #bbb;
+}
 
 .adicionar-paciente{
     margin-top: 30px;

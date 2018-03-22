@@ -39,6 +39,7 @@ function calculaImcDo(paciente){
       var erros = { 'classes':[], 'messages':[], 'massaInvalida':false, 'alturaInvalida':false };
 
       if(validarMassaEAltura(paciente,erros)){
+
           //recupera massa
           var massa = paciente.querySelector('.info-peso').textContent;
           //recupera Altura
@@ -47,6 +48,16 @@ function calculaImcDo(paciente){
           var imc = massa/(altura*altura);
           //exibe imc na linha correspondente ao paciente
           paciente.querySelector('.info-imc').textContent = imc.toFixed(2);
+
+          paciente.querySelector('.info-peso').classList.remove('bad-info');
+          paciente.querySelector('.info-altura').classList.remove('bad-info');
+          paciente.querySelector('.info-peso').classList.remove('paciente-invalido');
+          paciente.querySelector('.info-altura').classList.remove('paciente-invalido');
+          var tds = paciente.getElementsByTagName('td');
+
+          for(var i=0;i<tds.length;i++){
+            tds[i].classList.add('paciente-valido');
+          }
 
       }else{//massa e/ou altura inválido(s)
 
@@ -60,7 +71,8 @@ function handleDadosInvalidos(paciente,erros){
   var tds = paciente.getElementsByTagName('td');
 
   for(var i=0;i<tds.length;i++){
-    tds[i].classList.add('paciente-invalido');
+    if(!tds[i].classList.contains('paciente-invalido'))tds[i].classList.add('paciente-invalido');
+    tds[i].classList.remove('paciente-valido');
   }
   //paciente.style.backgroundColor='lightcoral';
   var msg='';
@@ -70,7 +82,8 @@ function handleDadosInvalidos(paciente,erros){
     msg+=erros.messages[i];
 
     paciente.querySelector(erros.classes[i]).classList.remove('paciente-invalido');
-    paciente.querySelector(erros.classes[i]).classList.add('bad-info');
+    if(!paciente.querySelector(erros.classes[i]).classList.contains('bad-info'))
+      paciente.querySelector(erros.classes[i]).classList.add('bad-info');
 
     if(i<erros.classes.length-1){//poe virgula até a penultima palavra
       msg+=',';
@@ -87,7 +100,7 @@ function handleDadosInvalidos(paciente,erros){
 
 function validarMassaAltura(massa,altura,erros){
 
-  console.log('validando massa='+massa+' e altura='+altura);
+//  console.log('validando massa='+massa+' e altura='+altura);
 
   var massaValida = (massa > 0 && massa < 1000);
   var alturaValida = (altura > 0 && altura < 3.00);
@@ -161,49 +174,59 @@ botaoAdicionar.addEventListener('click',function(event){
 
   if(temCampoInvalido) return;
 
-  var pacienteTr = document.createElement('tr');
-  var nomeTd = document.createElement('td');
-  var massaTd = document.createElement('td');
-  var alturaTd = document.createElement('td');
-  var gorduraTd = document.createElement('td');
-  var imcTd = document.createElement('td');
+  if(linhaTabela==null){//Create
+    var pacienteTr = document.createElement('tr');
+    var nomeTd = document.createElement('td');
+    var massaTd = document.createElement('td');
+    var alturaTd = document.createElement('td');
+    var gorduraTd = document.createElement('td');
+    var imcTd = document.createElement('td');
 
-  pacienteTr.classList.add('paciente');
-  nomeTd.classList.add('info-nome');
-  massaTd.classList.add('info-peso');
-  alturaTd.classList.add('info-altura');
-  gorduraTd.classList.add('info-gordura');
-  imcTd.classList.add('info-imc');
+    pacienteTr.classList.add('paciente');
+    nomeTd.classList.add('info-nome');
+    massaTd.classList.add('info-peso');
+    alturaTd.classList.add('info-altura');
+    gorduraTd.classList.add('info-gordura');
+    imcTd.classList.add('info-imc');
 
 
-  nomeTd.textContent = nome;
-  massaTd.textContent = massa;
-  alturaTd.textContent = altura;
-  gorduraTd.textContent = gordura;
+    nomeTd.textContent = nome;
+    massaTd.textContent = massa;
+    alturaTd.textContent = altura;
+    gorduraTd.textContent = gordura;
 
-  pacienteTr.appendChild(nomeTd);
-  pacienteTr.appendChild(massaTd);
-  pacienteTr.appendChild(alturaTd);
-  pacienteTr.appendChild(gorduraTd);
-  pacienteTr.appendChild(imcTd);
-  var trashTd = document.createElement('td');
-  trashTd.classList.add('trash');
-  trashTd.innerHTML='&#x1F5D1';
-  trashTd.addEventListener('click',excluirPaciente);
-  pacienteTr.appendChild(trashTd);
-/*
-  var editarTd = document.createElement('td');
-  editarTd.classList.add('editar');
-  editarTd.innerHTML='&#9997;';
-  editarTd.addEventListener('click',editarPaciente);
-  pacienteTr.appendChild(editarTd);
-*/
-  calculaImcDo(pacienteTr);
+    pacienteTr.appendChild(nomeTd);
+    pacienteTr.appendChild(massaTd);
+    pacienteTr.appendChild(alturaTd);
+    pacienteTr.appendChild(gorduraTd);
+    pacienteTr.appendChild(imcTd);
+    var trashTd = document.createElement('td');
+    trashTd.classList.add('trash');
+    trashTd.innerHTML='&#x1F5D1';
+    trashTd.addEventListener('click',excluirPaciente);
+    pacienteTr.appendChild(trashTd);
+  /*
+    var editarTd = document.createElement('td');
+    editarTd.classList.add('editar');
+    editarTd.innerHTML='&#9997;';
+    editarTd.addEventListener('click',editarPaciente);
+    pacienteTr.appendChild(editarTd);
+  */
+    calculaImcDo(pacienteTr);
 
-  var tabela = document.querySelector('#tabela-pacientes');
-  tabela.appendChild(pacienteTr);
+    var tabela = document.querySelector('#tabela-pacientes');
+    tabela.appendChild(pacienteTr);
+    pacienteTr.addEventListener('click',populaFormulario);
 
-  pacienteTr.addEventListener('click',populaFormulario);
+  }else{//update
+
+    linhaTabela.querySelector('.info-nome').textContent = nome;
+    linhaTabela.querySelector('.info-peso').textContent = massa;
+    linhaTabela.querySelector('.info-altura').textContent= altura;
+    linhaTabela.querySelector('.info-gordura').textContent = gordura;
+    calculaImcDo(linhaTabela);
+    linhaTabela = null;
+  }
 
   if(form.nome.classList.contains('campo-invalido')){
     form.nome.classList.remove('campo-invalido');
@@ -217,17 +240,20 @@ botaoAdicionar.addEventListener('click',function(event){
   if(form.gordura.classList.contains('campo-invalido')){
     form.gordura.classList.remove('campo-invalido');
   }
+
   form.nome.value = '';
   form.peso.value = '';
   form.altura.value = '';
   form.gordura.value = '';
 
-
+  botaoAdicionar.textContent='ADICIONAR';
 
 });
 
+var linhaTabela = null;
+
 var addPacienteTitulo = document.getElementById('titulo-form');
-console.log(addPacienteTitulo);
+//console.log(addPacienteTitulo);
 addPacienteTitulo.addEventListener('mouseover',hoverOnTituloPaciente);
 addPacienteTitulo.addEventListener('mouseout', mouseOutTituloPaciente);
 addPacienteTitulo.addEventListener('click', addClienteHabilitar);
@@ -239,11 +265,15 @@ function mouseOutTituloPaciente(event){
     addPacienteTitulo.innerHTML=tituloMouseOut;
 }
 function addClienteHabilitar(event){
-  console.log('clicado');
+  //console.log('clicado');
   document.getElementById("form-adiciona").classList.add('form-adiciona-habilitado');
 }
 
 function populaFormulario(event){
+
+  if(event.srcElement.classList.contains('trash')) return;
+
+  botaoAdicionar.textContent='EDITAR';
 
   var src = event.srcElement;
   var tr;
@@ -252,6 +282,8 @@ function populaFormulario(event){
   }else{
       tr = src.parentElement;
   }
+
+  linhaTabela = tr;
 
   var nome = tr.querySelector('.info-nome').textContent;
   var massa = tr.querySelector('.info-peso').textContent;
@@ -274,4 +306,5 @@ function excluirPaciente(event){
   }
   var tr2 = tr.parentNode;
   tr2.parentNode.removeChild(tr2);
+
 }
