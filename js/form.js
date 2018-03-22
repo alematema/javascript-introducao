@@ -97,11 +97,11 @@ function aplicarCssErrosNoForm(form,erros){
 
 
 function estahCriandoPaciente(){
-   return linhaTabela==null;
+   return pacienteTr==null;
 }
 
 function estahEditandoPaciente(){
-  return linhaTabela!=null;
+  return pacienteTr!=null;
 }
 
 function recuperaPacienteDoForm(form){
@@ -167,10 +167,7 @@ function criaPacienteTr(paciente){
   alturaTd.textContent = paciente.altura;
   gorduraTd.textContent = paciente.gordura;
 
-  nomeTd.title='clique para EDITAR ' + paciente.nome;
-  massaTd.title='clique para EDITAR o peso '+ paciente.peso;
-  alturaTd.title='clique para EDITAR a altura '+paciente.altura;
-  gorduraTd.title='clique para EDITAR a gordura '+ paciente.gordura;
+
 
   pacienteTr.appendChild(nomeTd);
   pacienteTr.appendChild(massaTd);
@@ -178,11 +175,28 @@ function criaPacienteTr(paciente){
   pacienteTr.appendChild(gorduraTd);
   pacienteTr.appendChild(imcTd);
 
+  atualizarToolTip(paciente,pacienteTr);
+
   return pacienteTr;
 
 }
 
+function atualizarToolTip(paciente,pacienteTr){
+
+  var nomeTd = pacienteTr.querySelector('.info-nome');
+  var massaTd = pacienteTr.querySelector('.info-peso');
+  var alturaTd = pacienteTr.querySelector('.info-altura');
+  var gorduraTd = pacienteTr.querySelector('.info-gordura');
+
+  nomeTd.title='clique para EDITAR ' + paciente.nome;
+  massaTd.title='clique para EDITAR o peso '+ paciente.peso;
+  alturaTd.title='clique para EDITAR a altura '+paciente.altura;
+  gorduraTd.title='clique para EDITAR a gordura '+ paciente.gordura;
+
+}
+
 function criaTrashIconPara(paciente){
+
   var trashTd = document.createElement('td');
   trashTd.classList.add('trash');
   trashTd.innerHTML='&#x1F5D1';
@@ -206,20 +220,24 @@ function handleCriar(paciente){
   var tabela = document.querySelector('#tabela-pacientes');
   tabela.appendChild(pacienteTr);
 
-  pacienteTr.addEventListener('click',populaFormulario);
+  pacienteTr.addEventListener('click',handlePrepararUpdate);
 
 }
 
 function handleEditar(paciente){
 
-  linhaTabela.querySelector('.info-nome').textContent = paciente.nome;
-  linhaTabela.querySelector('.info-peso').textContent = paciente.peso;
-  linhaTabela.querySelector('.info-altura').textContent= paciente.altura;
-  linhaTabela.querySelector('.info-gordura').textContent = paciente.gordura;
+  var pacienteTr = getPacienteTr();
 
-  handleIMC(paciente,linhaTabela);
+  pacienteTr.querySelector('.info-nome').textContent = paciente.nome;
+  pacienteTr.querySelector('.info-peso').textContent = paciente.peso;
+  pacienteTr.querySelector('.info-altura').textContent= paciente.altura;
+  pacienteTr.querySelector('.info-gordura').textContent = paciente.gordura;
 
-  linhaTabela = null;
+  atualizarToolTip(paciente,pacienteTr);
+
+  handleIMC(paciente,pacienteTr);
+
+  setPacienteTr(null);
 
 }
 
@@ -332,7 +350,15 @@ function handleCssDadosInvalidos(paciente,pacienteTr,erros){
 
 }
 
-var linhaTabela = null;
+function setPacienteTr(newValue){
+  pacienteTr = newValue;
+}
+
+function getPacienteTr(){
+  return pacienteTr;
+}
+
+var pacienteTr = null;
 
 var addPacienteTitulo = document.getElementById('titulo-form');
 //console.log(addPacienteTitulo);
@@ -351,9 +377,12 @@ function addClienteHabilitar(event){
   document.getElementById("form-adiciona").classList.add('form-adiciona-habilitado');
 }
 
-function populaFormulario(event){
+function handlePrepararUpdate(event){
 
-  if(event.srcElement.classList.contains('trash')) return;
+  if(event.srcElement.classList.contains('trash')){
+    limpaFormulario(document.getElementById("form-adiciona"))
+    return;
+  }
 
   botaoAdicionar.textContent='EDITAR';
 
@@ -365,8 +394,13 @@ function populaFormulario(event){
       tr = src.parentElement;
   }
 
+  setPacienteTr(tr);
 
-  linhaTabela = tr;
+  preencheFormulario(tr);
+
+}
+
+function preencheFormulario(tr){
 
   var nome = tr.querySelector('.info-nome').textContent;
   var massa = tr.querySelector('.info-peso').textContent;
@@ -374,6 +408,7 @@ function populaFormulario(event){
   var gordura = tr.querySelector('.info-gordura').textContent;
 
   var form = document.querySelector('#form-adiciona');
+
   form.nome.value = nome;
   form.peso.value = massa;
   form.altura.value = altura;
