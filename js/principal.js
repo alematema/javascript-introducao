@@ -186,11 +186,25 @@ botaoAdicionar.addEventListener('click',function(event){
   pacienteTr.appendChild(alturaTd);
   pacienteTr.appendChild(gorduraTd);
   pacienteTr.appendChild(imcTd);
-
+  var trashTd = document.createElement('td');
+  trashTd.classList.add('trash');
+  trashTd.innerHTML='&#x1F5D1';
+  trashTd.addEventListener('click',excluirPaciente);
+  pacienteTr.appendChild(trashTd);
+/*
+  var editarTd = document.createElement('td');
+  editarTd.classList.add('editar');
+  editarTd.innerHTML='&#9997;';
+  editarTd.addEventListener('click',editarPaciente);
+  pacienteTr.appendChild(editarTd);
+*/
   calculaImcDo(pacienteTr);
 
   var tabela = document.querySelector('#tabela-pacientes');
   tabela.appendChild(pacienteTr);
+
+  pacienteTr.addEventListener('click',populaFormulario);
+
   if(form.nome.classList.contains('campo-invalido')){
     form.nome.classList.remove('campo-invalido');
   }
@@ -208,13 +222,6 @@ botaoAdicionar.addEventListener('click',function(event){
   form.altura.value = '';
   form.gordura.value = '';
 
-  console.log(pacienteTr);
-/*
-  console.log(nome);
-  console.log(massa);
-  console.log(altura);
-  console.log(gordura);
-*/
 
 
 });
@@ -234,4 +241,37 @@ function mouseOutTituloPaciente(event){
 function addClienteHabilitar(event){
   console.log('clicado');
   document.getElementById("form-adiciona").classList.add('form-adiciona-habilitado');
+}
+
+function populaFormulario(event){
+
+  var src = event.srcElement;
+  var tr;
+  if(src == undefined){
+      tr = event;
+  }else{
+      tr = src.parentElement;
+  }
+
+  var nome = tr.querySelector('.info-nome').textContent;
+  var massa = tr.querySelector('.info-peso').textContent;
+  var altura = tr.querySelector('.info-altura').textContent;
+  var gordura = tr.querySelector('.info-gordura').textContent;
+
+  var form = document.querySelector('#form-adiciona');
+  form.nome.value = nome;
+  form.peso.value = massa;
+  form.altura.value = altura;
+  form.gordura.value = gordura;
+
+}
+
+function excluirPaciente(event){
+
+  var tr = event;
+  if(event.type=='click'){
+    tr = event.srcElement;
+  }
+  var tr2 = tr.parentNode;
+  tr2.parentNode.removeChild(tr2);
 }
