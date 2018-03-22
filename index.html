@@ -60,16 +60,42 @@
 						</tr>
 						<tr tabindex="4" class="paciente" >
 							<td class="info-nome">Tatiana</td>
-							<td class="info-peso">4600</td>
+							<td class="info-peso">460</td>
 							<td class="info-altura">15</td>
 							<td class="info-gordura">19</td>
 							<td class="info-imc">0</td>
 						</tr>
 					</tbody>
 				</table>
-
 			</section>
 		</main>
+
+
+		<section class="container">
+		    <h2 id="titulo-form">	&#8853;paciente</h2>
+		    <form class='form-desabilitado' id="form-adiciona">
+		        <div class='grupo-nome'>
+		            <label for="nome">Nome:</label>
+		            <input id="nome" name="nome" type="text" placeholder="digite o nome do seu paciente" class="campo">
+		        </div>
+		        <div class="grupo">
+		            <label for="peso">Peso:</label>
+		            <input id="peso" name="peso" type="text" placeholder="digite o peso do seu paciente" class="campo campo-medio">
+		        </div>
+		        <div class="grupo">
+		            <label for="altura">Altura:</label>
+		            <input id="altura" name="altura" type="text" placeholder="digite a altura do seu paciente" class="campo campo-medio">
+		        </div>
+		        <div class="grupo">
+		            <label for="gordura">% de Gordura:</label>
+		            <input id="gordura" name="gordura" type="text" placeholder="digite a porcentagem de gordura do seu paciente" class="campo campo-medio">
+		        </div>
+
+		        <button id="adicionar-paciente" class="botao bto-principal">ADICIONAR</button>
+
+		    </form>
+		</section>
+
 		<script src="js/principal.js"></script>
 	</body>
 </html>

@@ -1,3 +1,4 @@
+//Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
 var titulo = document.querySelector('.titulo');
 titulo.textContent = 'Edna Nutricionista';
 //alguns testes da funcao validar massa e altura
@@ -57,7 +58,7 @@ function handleDadosInvalidos(paciente,erros){
 
   paciente.classList.add('paciente-invalido');
   var tds = paciente.getElementsByTagName('td');
-  console.log(tds);
+
   for(var i=0;i<tds.length;i++){
     tds[i].classList.add('paciente-invalido');
   }
@@ -122,4 +123,115 @@ function aplicarCssDErrosNaLinhaDo(paciente,erros){
       handleDadosInvalidos(paciente,erros);
   }
 
+}
+
+titulo.addEventListener('click',mostraMensagem);
+function mostraMensagem(){
+  console.log('titulo foi clicado');
+}
+
+var botaoAdicionar = document.querySelector('#adicionar-paciente');
+botaoAdicionar.addEventListener('click',function(event){
+  event.preventDefault();
+  var form = document.querySelector('#form-adiciona');
+  var nome = form.nome.value;
+  var massa = form.peso.value;
+  var altura = form.altura.value;
+  var gordura = form.gordura.value;
+
+  var temCampoInvalido=false;
+  if(nome.trim()==''){
+    //console.log('nome invalido :(');
+    form.nome.classList.add('campo-invalido');
+    form.nome.value='';
+    temCampoInvalido=true;
+  }
+
+  if(massa.trim()==''){
+    form.peso.classList.add('campo-invalido');
+    form.peso.value='';
+    temCampoInvalido=true;
+  }
+
+  if(altura.trim()==''){
+    form.altura.classList.add('campo-invalido');
+    form.altura.value='';
+    temCampoInvalido=true;
+  }
+
+  if(temCampoInvalido) return;
+
+  var pacienteTr = document.createElement('tr');
+  var nomeTd = document.createElement('td');
+  var massaTd = document.createElement('td');
+  var alturaTd = document.createElement('td');
+  var gorduraTd = document.createElement('td');
+  var imcTd = document.createElement('td');
+
+  pacienteTr.classList.add('paciente');
+  nomeTd.classList.add('info-nome');
+  massaTd.classList.add('info-peso');
+  alturaTd.classList.add('info-altura');
+  gorduraTd.classList.add('info-gordura');
+  imcTd.classList.add('info-imc');
+
+
+  nomeTd.textContent = nome;
+  massaTd.textContent = massa;
+  alturaTd.textContent = altura;
+  gorduraTd.textContent = gordura;
+
+  pacienteTr.appendChild(nomeTd);
+  pacienteTr.appendChild(massaTd);
+  pacienteTr.appendChild(alturaTd);
+  pacienteTr.appendChild(gorduraTd);
+  pacienteTr.appendChild(imcTd);
+
+  calculaImcDo(pacienteTr);
+
+  var tabela = document.querySelector('#tabela-pacientes');
+  tabela.appendChild(pacienteTr);
+  if(form.nome.classList.contains('campo-invalido')){
+    form.nome.classList.remove('campo-invalido');
+  }
+  if(form.peso.classList.contains('campo-invalido')){
+    form.peso.classList.remove('campo-invalido');
+  }
+  if(form.altura.classList.contains('campo-invalido')){
+    form.altura.classList.remove('campo-invalido');
+  }
+  if(form.gordura.classList.contains('campo-invalido')){
+    form.gordura.classList.remove('campo-invalido');
+  }
+  form.nome.value = '';
+  form.peso.value = '';
+  form.altura.value = '';
+  form.gordura.value = '';
+
+  console.log(pacienteTr);
+/*
+  console.log(nome);
+  console.log(massa);
+  console.log(altura);
+  console.log(gordura);
+*/
+
+
+});
+
+var addPacienteTitulo = document.getElementById('titulo-form');
+console.log(addPacienteTitulo);
+addPacienteTitulo.addEventListener('mouseover',hoverOnTituloPaciente);
+addPacienteTitulo.addEventListener('mouseout', mouseOutTituloPaciente);
+addPacienteTitulo.addEventListener('click', addClienteHabilitar);
+var tituloMouseOut = addPacienteTitulo.textContent;
+function hoverOnTituloPaciente(event){
+    addPacienteTitulo.innerHTML='&#8855;'+'paciente';
+}
+function mouseOutTituloPaciente(event){
+    addPacienteTitulo.innerHTML=tituloMouseOut;
+}
+function addClienteHabilitar(event){
+  console.log('clicado');
+  document.getElementById("form-adiciona").classList.add('form-adiciona-habilitado');
 }
