@@ -1,3 +1,14 @@
+onloadCalculaExibeImcPacientes();
+
+function onloadCalculaExibeImcPacientes(){
+  var pacientes = document.querySelectorAll('.paciente');
+  for(var i=0; i < pacientes.length;i++){
+    var pacienteTr = pacientes[i];
+    var paciente = recuperaPacienteDaLinhaTr(pacienteTr)
+    handleIMC(paciente, pacienteTr);
+  }
+}
+
 var botaoAdicionar = document.querySelector('#adicionar-paciente');
 botaoAdicionar.addEventListener('click',function(event){
 
@@ -95,6 +106,7 @@ function estahEditandoPaciente(){
 
 function recuperaPacienteDoForm(form){
 
+
   var paciente =
 
   { nome:form.nome.value,
@@ -102,6 +114,32 @@ function recuperaPacienteDoForm(form){
     altura:form.altura.value,
     gordura:form.gordura.value,
     imc:0
+  };
+
+  return paciente;
+
+}
+
+function recuperaPacienteDaLinhaTr(tr){
+
+  //recupera nome
+  var nome = tr.querySelector('.info-nome').textContent;
+  //recupera massa
+  var massa = tr.querySelector('.info-peso').textContent;
+  //recupera Altura
+  var altura = tr.querySelector('.info-altura').textContent;
+  //recupera gordura
+  var gordura = tr.querySelector('.info-gordura').textContent;
+  //recupera imc
+  var imc = tr.querySelector('.info-imc').textContent;
+
+  var paciente =
+
+  { nome:nome,
+    peso:massa,
+    altura:altura,
+    gordura:gordura,
+    imc:imc
   };
 
   return paciente;
@@ -163,7 +201,7 @@ function handleCriar(paciente){
 
   pacienteTr.appendChild(trashTd);
 
-  calculaImcDo(pacienteTr);
+  handleIMC(paciente, pacienteTr);
 
   var tabela = document.querySelector('#tabela-pacientes');
   tabela.appendChild(pacienteTr);
@@ -178,7 +216,9 @@ function handleEditar(paciente){
   linhaTabela.querySelector('.info-peso').textContent = paciente.peso;
   linhaTabela.querySelector('.info-altura').textContent= paciente.altura;
   linhaTabela.querySelector('.info-gordura').textContent = paciente.gordura;
-  calculaImcDo(linhaTabela);
+
+  handleIMC(paciente,linhaTabela);
+
   linhaTabela = null;
 
 }
@@ -202,6 +242,93 @@ function limpaFormulario(form){
   form.peso.value = '';
   form.altura.value = '';
   form.gordura.value = '';
+
+}
+
+function handleIMC(paciente, pacienteTr){
+
+  var validacao = validarMassaEAlturaIMC(paciente);
+
+  if(validacao.hasError){
+
+    handleImcMassaAlturaErros(paciente,pacienteTr,validacao.erros);
+
+  }else{
+
+    handleImcMassaAlturaOk(paciente,pacienteTr);
+
+  }
+
+}
+
+function handleImcMassaAlturaOk(paciente,pacienteTr){
+
+  var imc = calcularImcDo(paciente);
+
+  //exibe imc na linha correspondente ao paciente
+  pacienteTr.querySelector('.info-imc').textContent = imc.toFixed(2);
+
+  pacienteTr.querySelector('.info-peso').classList.remove('bad-info');
+  pacienteTr.querySelector('.info-altura').classList.remove('bad-info');
+  pacienteTr.querySelector('.info-peso').classList.remove('paciente-invalido');
+  pacienteTr.querySelector('.info-altura').classList.remove('paciente-invalido');
+  var tds = pacienteTr.getElementsByTagName('td');
+
+  for(var i=0;i<tds.length;i++){
+    tds[i].classList.add('paciente-valido');
+  }
+
+}
+
+function handleImcMassaAlturaErros(paciente,pacienteTr,erros){
+
+  if(erros.massaInvalida && erros.alturaInvalida){
+      erros.classes=['.info-peso','.info-altura'];
+      erros.messages=['massa','altura'];
+      handleCssDadosInvalidos(paciente,pacienteTr,erros);
+  }else if(erros.massaInvalida){
+      erros.classes=['.info-peso'];
+      erros.messages=['massa'];
+      handleCssDadosInvalidos(paciente,pacienteTr,erros);
+  }else if(erros.alturaInvalida){
+      erros.classes=['.info-altura'];
+      erros.messages=['altura'];
+      handleCssDadosInvalidos(paciente,pacienteTr,erros);
+  }
+
+}
+
+function handleCssDadosInvalidos(paciente,pacienteTr,erros){
+
+  pacienteTr.classList.add('paciente-invalido');
+  var tds = pacienteTr.getElementsByTagName('td');
+
+  for(var i=0;i<tds.length;i++){
+    if(!tds[i].classList.contains('paciente-invalido'))tds[i].classList.add('paciente-invalido');
+    tds[i].classList.remove('paciente-valido');
+  }
+  //pacienteTr.style.backgroundColor='lightcoral';
+  var msg='';
+
+  for(var i = 0; i < erros.classes.length; i++){
+
+    msg+=erros.messages[i];
+
+    pacienteTr.querySelector(erros.classes[i]).classList.remove('paciente-invalido');
+    if(!pacienteTr.querySelector(erros.classes[i]).classList.contains('bad-info'))
+      pacienteTr.querySelector(erros.classes[i]).classList.add('bad-info');
+
+    if(i<erros.classes.length-1){//poe virgula até a penultima palavra
+      msg+=',';
+    }else{// ajusta singular ou plural da mensagem, dependendo do numero de erros
+      if(i>=1)msg+=' inválidas';
+      else msg+=' inválida';
+    }
+
+  }
+
+  pacienteTr.querySelector('.info-imc').textContent=msg;
+  paciente.imc = msg;
 
 }
 

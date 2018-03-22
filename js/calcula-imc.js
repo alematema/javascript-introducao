@@ -23,84 +23,23 @@ testeOk=testeOk&&(validarMassaAltura(1001,2,erros)==false);//massa invalida: mai
 testeOk=testeOk&&erros.massaInvalida==true&&erros.alturaInvalida==false;
 console.log("funcao validarMassaEAltura passou nos testes ? "+testeOk);
 //fim testes
-calculaExibeImcPacientes();
 
-function calculaExibeImcPacientes(){
-  var pacientes = document.querySelectorAll('.paciente');
-  for(var i=0; i < pacientes.length;i++){
-    var paciente = pacientes[i];
-    calculaImcDo(paciente)
-  }
-}
+
 //Cálculo do IMC (indice massa corpo)
 //(https://pt.wikipedia.org/wiki/Índice_de_massa_corporal#Cálculo)
-function calculaImcDo(paciente){
-
-      var erros = { 'classes':[], 'messages':[], 'massaInvalida':false, 'alturaInvalida':false };
-
-      if(validarMassaEAltura(paciente,erros)){
-
-          //recupera massa
-          var massa = paciente.querySelector('.info-peso').textContent;
-          //recupera Altura
-          var altura = paciente.querySelector('.info-altura').textContent;
-            //calcula imc (https://pt.wikipedia.org/wiki/Índice_de_massa_corporal#Cálculo)
-          var imc = massa/(altura*altura);
-          //exibe imc na linha correspondente ao paciente
-          paciente.querySelector('.info-imc').textContent = imc.toFixed(2);
-
-          paciente.querySelector('.info-peso').classList.remove('bad-info');
-          paciente.querySelector('.info-altura').classList.remove('bad-info');
-          paciente.querySelector('.info-peso').classList.remove('paciente-invalido');
-          paciente.querySelector('.info-altura').classList.remove('paciente-invalido');
-          var tds = paciente.getElementsByTagName('td');
-
-          for(var i=0;i<tds.length;i++){
-            tds[i].classList.add('paciente-valido');
-          }
-
-      }else{//massa e/ou altura inválido(s)
-
-          aplicarCssDErrosNaLinhaDo(paciente,erros);
-
-      }
-}
-function handleDadosInvalidos(paciente,erros){
-
-  paciente.classList.add('paciente-invalido');
-  var tds = paciente.getElementsByTagName('td');
-
-  for(var i=0;i<tds.length;i++){
-    if(!tds[i].classList.contains('paciente-invalido'))tds[i].classList.add('paciente-invalido');
-    tds[i].classList.remove('paciente-valido');
-  }
-  //paciente.style.backgroundColor='lightcoral';
-  var msg='';
-
-  for(var i = 0; i < erros.classes.length; i++){
-
-    msg+=erros.messages[i];
-
-    paciente.querySelector(erros.classes[i]).classList.remove('paciente-invalido');
-    if(!paciente.querySelector(erros.classes[i]).classList.contains('bad-info'))
-      paciente.querySelector(erros.classes[i]).classList.add('bad-info');
-
-    if(i<erros.classes.length-1){//poe virgula até a penultima palavra
-      msg+=',';
-    }else{// ajusta singular ou plural da mensagem, dependendo do numero de erros
-      if(i>=1)msg+=' inválidas';
-      else msg+=' inválida';
-    }
-
-  }
-
-  paciente.querySelector('.info-imc').textContent=msg;
-
+function calcularImcDo(paciente){
+    //(https://pt.wikipedia.org/wiki/Índice_de_massa_corporal#Cálculo)
+    paciente.imc = paciente.peso/(paciente.altura*paciente.altura);
+    return paciente.imc;
 }
 
-function validarMassaAltura(massa,altura,erros){
+function validarMassaEAlturaIMC(paciente){
 
-//  console.log('validando massa='+massa+' e altura='+altura);
+  var erros = { classes:[], messages:[], massaInvalida:false, alturaInvalida:false };
+  var validacao = {hasError:false,erros:erros};
+
+  var massa = paciente.peso;
+  var altura = paciente.altura;
 
   var massaValida = (massa > 0 && massa < 1000);
   var alturaValida = (altura > 0 && altura < 3.00);
@@ -108,32 +47,22 @@ function validarMassaAltura(massa,altura,erros){
   erros.massaInvalida=!massaValida;
   erros.alturaInvalida=!alturaValida;
 
-  return massaValida && alturaValida;
-}
+  if(erros.massaInvalida || erros.alturaInvalida) validacao.hasError=true;
 
-function validarMassaEAltura(paciente,erros){
-  //recupera massa
-  var massa = paciente.querySelector('.info-peso').textContent;
-  //recupera Altura
-  var altura = paciente.querySelector('.info-altura').textContent;
-
-  return validarMassaAltura(massa,altura,erros);
-}
-
-function aplicarCssDErrosNaLinhaDo(paciente,erros){
-
-  if(erros.massaInvalida && erros.alturaInvalida){
-      erros.classes=['.info-peso','.info-altura'];
-      erros.messages=['massa','altura'];
-      handleDadosInvalidos(paciente,erros);
-  }else if(erros.massaInvalida){
-      erros.classes=['.info-peso'];
-      erros.messages=['massa'];
-      handleDadosInvalidos(paciente,erros);
-  }else if(erros.alturaInvalida){
-      erros.classes=['.info-altura'];
-      erros.messages=['altura'];
-      handleDadosInvalidos(paciente,erros);
-  }
+  return validacao;
 
 }
+
+
+function validarMassaAltura(massa,altura,erros){
+
+   console.log('validando massa='+massa+' e altura='+altura);
+
+   var massaValida = (massa > 0 && massa < 1000);
+   var alturaValida = (altura > 0 && altura < 3.00);
+
+   erros.massaInvalida=!massaValida;
+   erros.alturaInvalida=!alturaValida;
+
+   return massaValida && alturaValida;
+ }
