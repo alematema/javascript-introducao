@@ -204,6 +204,11 @@ botaoAdicionar.addEventListener('click',function(event){
     trashTd.classList.add('trash');
     trashTd.innerHTML='&#x1F5D1';
     trashTd.addEventListener('click',excluirPaciente);
+    trashTd.title='EXLCUI ' + nome + ','+massa+'kg'+','+altura+'m';
+    nomeTd.title='clique para EDITAR ' + nome;
+    massaTd.title='clique para EDITAR o peso '+ massa;
+    alturaTd.title='clique para EDITAR a altura '+altura;
+    gorduraTd.title='clique para EDITAR a gordura '+ gordura;
     pacienteTr.appendChild(trashTd);
   /*
     var editarTd = document.createElement('td');
