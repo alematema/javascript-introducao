@@ -190,30 +190,30 @@ function atualizarToolTip(paciente,pacienteTr,validacao){
   var trashTd = pacienteTr.querySelector('.trash');
 
 
-  nomeTd.title='clique para EDITAR ' + paciente.nome;
-  massaTd.title='clique para EDITAR o peso '+ paciente.peso;
-  alturaTd.title='clique para EDITAR a altura '+paciente.altura;
-  gorduraTd.title='clique para EDITAR a gordura '+ paciente.gordura;
+  nomeTd.title='✍ clique para EDITAR ' + paciente.nome;
+  massaTd.title='✍ clique para EDITAR o peso '+ paciente.peso;
+  alturaTd.title='✍ clique para EDITAR a altura '+paciente.altura;
+  gorduraTd.title='✍ clique para EDITAR a gordura '+ paciente.gordura;
 
   if(validacao.hasError){
     // var erros = { classes:[], messages:[], massaInvalida:false, alturaInvalida:false };
     // var validacao = {hasError:false,erros:erros};
-    var imcTitle='';
+    var imcTitle='☹ IMC não calculado \n';
     if(validacao.erros.massaInvalida){
-      imcTitle+='massa <= 0Kg ou massa >= 1000Kg \n';
+      imcTitle+='a massa deve estar entre 0Kg e 1000Kg \n';
     }
     if(validacao.erros.alturaInvalida){
-      if(imcTitle!='')imcTitle+='E\n';
-      imcTitle+='altura <= 0m ou altura >= 3m'
+      if(imcTitle!='☹ IMC não calculado \n')imcTitle+='E\n';
+      imcTitle+='a altura deve estar entre 0m e 3m'
     }
 
     imcTd.title = imcTitle;
 
   }else{
-    imcTd.title = paciente.peso+'/('+paciente.altura+'*'+paciente.altura+')';
+    imcTd.title = '😃 IMC '+ ' '+ paciente.peso+'/('+paciente.altura+'*'+paciente.altura+')'+'='+paciente.imc.toFixed(2);
   }
 
-  trashTd.title='EXCLUI (' + paciente.nome + ','+paciente.peso+'kg'+','+paciente.altura+'m)';
+  trashTd.title='🗑 EXCLUI (' + paciente.nome + ','+paciente.peso+'kg'+','+paciente.altura+'m)';
 
 }
 
