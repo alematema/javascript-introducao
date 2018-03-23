@@ -35,8 +35,8 @@ header .container:before{
 .container{
 	width: 50%;
 	height: 100%;
-	margin: 0 auto;
-
+	margin: 0% auto;
+	/* padding: 5%; */
 }
 
 .form{
@@ -258,6 +258,7 @@ input:focus{
   background-color: gray;
 	border-color: darkgray;
 }
+
 .botao-limpar-formulario:hover ,
 .botao-limpar-formulario:focus{
 	border-bottom: 5px solid #04324c;
@@ -312,10 +313,7 @@ input:focus{
 }
 
 .paciente-invalido{
-  /* background-color: #e85555; */
   background-color: lightcoral;
-	/* background: linear-gradient(to right,red , yellow); */
-	/* background: linear-gradient(to right, rgba(240,128,128,0), rgba(240,128,128,1)); */
 }
 .paciente-valido{
   /* background-color: #aaff80	; */
@@ -334,12 +332,16 @@ input:focus{
 	font-size: 1.2em;
 	font-weight: bold;
 	color: #333;
-	transition: font-size 0.7s;
+	border :0;
 }
 
 .trash:hover,
 .trash:focus{
 	cursor:pointer;
 	color:red;
-	font-size: 1.7em;
+	font-size: 1.4em;
+}
+
+.trash[disabled=disabled], .trash:disabled {
+  color: rgb(3,3,3,0.3);
 }
