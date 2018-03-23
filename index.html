@@ -83,13 +83,12 @@
 			</section>
 		</main>
 
-
 		<section class='form'>
 		    <h2 id="titulo-form">	&#8853;paciente</h2>
 		    <form class='form-desabilitado' id="form-adiciona">
 		        <div class='grupo-nome'>
 		            <label for="nome">Nome:</label>
-		            <input id="nome" name="nome" type="text" placeholder="digite o nome do seu paciente" class="campo">
+		            <input onkeyup="validaNomeInput(event)" id="nome" name="nome" type="text" placeholder="digite o nome do seu paciente" class="campo">
 		        </div>
 		        <div class="grupo">
 		            <label for="peso">Peso:</label>
@@ -103,7 +102,13 @@
 		            <label for="gordura">% de Gordura:</label>
 		            <input id="gordura" name="gordura" type="text" placeholder="digite a porcentagem de gordura do seu paciente" class="campo campo-medio">
 		        </div>
-		        <button id="adicionar-paciente" class="botao bto-principal">ADICIONAR</button>
+						<div class="grupo-botoes">
+
+								<button id="adicionar-paciente" class="botao bto-principal">ADICIONAR</button>
+								<button id="limpar-formulario-btn" onclick="limparForm(event)" onfocus="limparForm(event)" class="botao-limpar-formulario">LIMPAR</button>
+
+						</div>
+
 		    </form>
 		</section>
 

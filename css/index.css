@@ -79,7 +79,6 @@ section h2{
 
 
 table{
-
 	width: 100%;
 	margin-bottom : .5em;
   table-layout: auto;
@@ -220,6 +219,12 @@ label{
 	margin-left: 0;
 
 }
+.grupo-botoes{
+	width: 50%;
+	display: inline-flex;
+	padding: 10px 0px;
+	margin-left: 0;
+}
 
 input:hover,
 input:focus{
@@ -230,11 +235,45 @@ input:focus{
 
 }
 
-button{
+.botao-limpar-formulario{
+	width: 5em;
 	border: 0;
 	border-bottom: 3px solid #04324c;
-	font-size: 1.5em;
+	font-size: 1em;
 	font-weight: bolder;
+	cursor: pointer;
+	padding-top: 0;
+	color: #fff;
+	background-color:#0c8cd3;
+	text-align: center;
+	vertical-align: super;
+	height: 2.5em;
+  margin: 10px 0px;
+	margin-left: 5%;
+	border-radius: 10px;
+	padding-top: 3px;
+}
+
+.botao-limpar-formulario[disabled=disabled], .botao-limpar-formulario:disabled {
+  background-color: gray;
+	border-color: darkgray;
+}
+.botao-limpar-formulario:hover ,
+.botao-limpar-formulario:focus{
+	border-bottom: 5px solid #04324c;
+	padding-top: 3px;
+}
+
+.botao-limpar-formulario:active{
+	margin-top: 3px;
+	padding-top: 3px;
+}
+
+.botao{
+	border: 0;
+	border-bottom: 3px solid #04324c;
+	font-size: 1.3em;
+	font-weight: bold;
 	cursor: pointer;
 	padding-top: 0;
 	color: #fff;
@@ -249,20 +288,19 @@ button{
 	transition: border-bottom 0.5s, padding-top 0.5s, width 0.5s;
 }
 
-button:active{
+.botao:active{
 	margin-top:0px;
 	border: 0;
-
 }
 
-button:hover,
-button:focus{
+.botao:hover,
+.botao:focus{
 	border-bottom: 5px solid #04324c;
 	padding-top: 3px;
 	width:  7em;
 }
 
-button[disabled=disabled], button:disabled {
+.botao[disabled=disabled], .botao:disabled {
   background-color: gray;
 	border-color: darkgray;
 }
@@ -300,7 +338,7 @@ button[disabled=disabled], button:disabled {
 }
 
 .trash:hover,
-trash:focus{
+.trash:focus{
 	cursor:pointer;
 	color:red;
 	font-size: 1.7em;

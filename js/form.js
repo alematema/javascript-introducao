@@ -35,9 +35,11 @@ botaoAdicionar.addEventListener('click',function(event){
   if(estahCriandoPaciente()) handleCriar(paciente);//CRUD: Create
   if(estahEditandoPaciente()) handleEditar(paciente);//CRUD: Update
 
-  limpaFormulario(form);
+  limparFormulario(form);
 
   botaoAdicionar.textContent='ADICIONAR';
+  var botaoLimparFormulario = document.querySelector('#limpar-formulario-btn');
+  botaoLimparFormulario.disabled = false;
 
 });
 
@@ -272,7 +274,7 @@ function handleEditar(paciente){
 
 }
 
-function limpaFormulario(form){
+function limparFormulario(form){
 
   if(form.nome.classList.contains('campo-invalido')){
     form.nome.classList.remove('campo-invalido');
@@ -413,18 +415,21 @@ function addClienteHabilitar(event){
 function handlePrepararUpdate(event){
 
   if(event.srcElement.classList.contains('trash')){
-    limpaFormulario(document.getElementById("form-adiciona"))
+    limparFormulario(document.getElementById("form-adiciona"))
     return;
   }
 
   botaoAdicionar.textContent='EDITAR';
+  var botaoLimparFormulario = document.querySelector('#limpar-formulario-btn');
+  botaoLimparFormulario.disabled = true;
+
 
   var pacienteTr = event.srcElement;
   if(event.type=='click') pacienteTr = event.srcElement.parentNode;
 
   setPacienteTr(pacienteTr);
 
-  limpaFormulario(document.getElementById("form-adiciona"));
+  limparFormulario(document.getElementById("form-adiciona"));
 
   preencheFormulario(pacienteTr);
 
@@ -455,8 +460,10 @@ function excluirPaciente(event){
   var tr2 = tr.parentNode;
   tr2.parentNode.removeChild(tr2);
 
+  limparFormulario(document.getElementById("form-adiciona"));
   atualizarTabelaPacientes();
   atualizarTabIndex();
+  
 
 }
 
@@ -477,4 +484,43 @@ function atualizarTabIndex(){
 
   }
 
+}
+
+function limparForm(event){
+
+  event.preventDefault();
+
+  var form = document.getElementById("form-adiciona");
+
+  limparFormulario(form);
+
+  atualizarBotaoAdicionar();
+
+}
+
+function atualizarBotaoAdicionar(){
+
+  var btnAdicionar = document.querySelector('#adicionar-paciente');
+
+  if( ! estahEditandoPaciente() ){
+    btnAdicionar.textContent = 'ADICIONAR'
+  }else{
+    btnAdicionar.textContent = 'EDITAR';
+  }
+
+}
+
+function validaNomeInput(event){
+  // console.log(event);
+  // console.log(event.srcElement.value);
+  // var form = document.getElementById("form-adiciona");
+  // if(event.srcElement.value.trim()!=''){
+  //   if(form.nome.classList.contains('campo-invalido')){
+  //     form.nome.classList.remove('campo-invalido');
+  //   }
+  // }else{
+  //   if(!form.nome.classList.contains('campo-invalido')){
+  //     form.nome.classList.add('campo-invalido');
+  //   }
+  // }
 }
