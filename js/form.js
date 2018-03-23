@@ -1,13 +1,19 @@
+var tabIndex=1;
 onloadCalculaExibeImcPacientes();
 
 function onloadCalculaExibeImcPacientes(){
   var pacientes = document.querySelectorAll('.paciente');
   for(var i=0; i < pacientes.length;i++){
+
     var pacienteTr = pacientes[i];
-    var paciente = recuperaPacienteDaLinhaTr(pacienteTr)
+    if(pacienteTr.tabIndex==-1){
+      pacienteTr.tabIndex=tabIndex++;
+    }
+    var paciente = recuperaPacienteDaLinhaTr(pacienteTr);
     var validacao = handleIMC(paciente, pacienteTr);
     atualizarToolTip(paciente,pacienteTr,validacao);
   }
+
 }
 
 var botaoAdicionar = document.querySelector('#adicionar-paciente');
@@ -147,7 +153,7 @@ function recuperaPacienteDaLinhaTr(tr){
 
 }
 
-function criaPacienteTr(paciente){
+function criarPacienteTr(paciente){
 
   var pacienteTr = document.createElement('tr');
   var nomeTd = document.createElement('td');
@@ -158,6 +164,8 @@ function criaPacienteTr(paciente){
   var trashTd = criaTrashIconPara(paciente);
 
   pacienteTr.classList.add('paciente');
+  pacienteTr.tabIndex = tabIndex++;
+
   nomeTd.classList.add('info-nome');
   massaTd.classList.add('info-peso');
   alturaTd.classList.add('info-altura');
@@ -231,7 +239,7 @@ function criaTrashIconPara(paciente){
 
 function handleCriar(paciente){
 
-  var pacienteTr = criaPacienteTr(paciente);
+  var pacienteTr = criarPacienteTr(paciente);
 
   var validacao = handleIMC(paciente, pacienteTr);
 
@@ -241,6 +249,7 @@ function handleCriar(paciente){
   tabela.appendChild(pacienteTr);
 
   pacienteTr.addEventListener('click',handlePrepararUpdate);
+  pacienteTr.addEventListener('focus',handlePrepararUpdate);
 
   atualizarTabelaPacientes();
 
@@ -264,9 +273,6 @@ function handleEditar(paciente){
 }
 
 function limpaFormulario(form){
-
-  console.log('limpando form');
-  console.log(form);
 
   if(form.nome.classList.contains('campo-invalido')){
     form.nome.classList.remove('campo-invalido');
@@ -401,13 +407,10 @@ function mouseOutTituloPaciente(event){
     addPacienteTitulo.innerHTML=tituloMouseOut;
 }
 function addClienteHabilitar(event){
-  //console.log('clicado');
   document.getElementById("form-adiciona").classList.add('form-adiciona-habilitado');
 }
 
 function handlePrepararUpdate(event){
-
-  if(event.srcElement==null) return;
 
   if(event.srcElement.classList.contains('trash')){
     limpaFormulario(document.getElementById("form-adiciona"))
@@ -416,17 +419,12 @@ function handlePrepararUpdate(event){
 
   botaoAdicionar.textContent='EDITAR';
 
-  var src = event.srcElement;
-  var tr;
-  if(src == undefined){
-      tr = event;
-  }else{
-      tr = src.parentElement;
-  }
+  var pacienteTr = event.srcElement;
+  if(event.type=='click') pacienteTr = event.srcElement.parentNode;
 
-  setPacienteTr(tr);
+  setPacienteTr(pacienteTr);
 
-  preencheFormulario(tr);
+  preencheFormulario(pacienteTr);
 
 }
 
@@ -456,5 +454,25 @@ function excluirPaciente(event){
   tr2.parentNode.removeChild(tr2);
 
   atualizarTabelaPacientes();
+  atualizarTabIndex();
+
+}
+
+function atualizarTabIndex(){
+
+  var tabelaPacientes = document.querySelector('#tabela-pacientes');
+  var pacientes = tabelaPacientes.querySelectorAll('tr');
+  var quantidadePacientesNaTabela = pacientes.length;
+  if(quantidadePacientesNaTabela != tabIndex){
+
+    tabIndex=1;
+
+    for(var paciente = 0; paciente < quantidadePacientesNaTabela; paciente++){
+
+      pacientes[paciente].tabIndex=tabIndex++;
+
+    }
+
+  }
 
 }
