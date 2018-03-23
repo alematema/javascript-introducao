@@ -424,6 +424,8 @@ function handlePrepararUpdate(event){
 
   setPacienteTr(pacienteTr);
 
+  limpaFormulario(document.getElementById("form-adiciona"));
+
   preencheFormulario(pacienteTr);
 
 }
