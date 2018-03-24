@@ -301,6 +301,8 @@ function limparForm(){
 
   limparFormulario(form);
 
+  return false;
+
 }
 
 function atualizarBotaoAdicionar(){
