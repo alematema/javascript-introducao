@@ -104,7 +104,7 @@ function limparFormulario(form){
 
 }
 
-function criaTrashIconPara(paciente){
+function montaTdTrashIcon(paciente){
 
   var trashButton = document.createElement('button');
 
@@ -166,35 +166,26 @@ function atualizarToolTips(paciente,pacienteTr,validacao){
 function criarPacienteTr(paciente){
 
   var pacienteTr = document.createElement('tr');
-  var nomeTd = document.createElement('td');
-  var massaTd = document.createElement('td');
-  var alturaTd = document.createElement('td');
-  var gorduraTd = document.createElement('td');
-  var imcTd = document.createElement('td');
-  var trashTd = criaTrashIconPara(paciente);
-
   pacienteTr.classList.add('paciente');
-  pacienteTr.tabIndex = tabIndex++;
-
-  nomeTd.classList.add('info-nome');
-  massaTd.classList.add('info-peso');
-  alturaTd.classList.add('info-altura');
-  gorduraTd.classList.add('info-gordura');
-  imcTd.classList.add('info-imc');
-
-  nomeTd.textContent = paciente.nome;
-  massaTd.textContent = paciente.peso;
-  alturaTd.textContent = paciente.altura;
-  gorduraTd.textContent = paciente.gordura;
-
-  pacienteTr.appendChild(nomeTd);
-  pacienteTr.appendChild(massaTd);
-  pacienteTr.appendChild(alturaTd);
-  pacienteTr.appendChild(gorduraTd);
-  pacienteTr.appendChild(imcTd);
-  pacienteTr.appendChild(trashTd);
+  //pacienteTr.tabIndex = tabIndex++;
+  pacienteTr.appendChild(montaTd(paciente.nome,'info-nome'));
+  pacienteTr.appendChild(montaTd(paciente.peso,'info-peso'));
+  pacienteTr.appendChild(montaTd(paciente.altura, 'info-altura'));
+  pacienteTr.appendChild(montaTd(paciente.gordura,'info-gordura'));
+  pacienteTr.appendChild(montaTd(paciente.imc,'info-imc'));
+  pacienteTr.appendChild(montaTdTrashIcon(paciente));
 
   return pacienteTr;
+
+}
+
+function montaTd(textContent,clazz){
+
+  var td = document.createElement('td');
+  td.textContent = textContent;
+  td.classList.add(clazz);
+
+  return td;
 
 }
 
