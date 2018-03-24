@@ -104,7 +104,7 @@ table{
 	padding-left:5%;
 	padding-top:5%;
 	padding-bottom: 5%;
-	display: inline-block;
+	display: block;
 }
 .msg-tabela-vazia .botaoAdd{
 
@@ -115,13 +115,14 @@ table{
 	padding: 0.5%;
 	background-color: #0c8cd3;
 	color: white;
-	margin-top: 1%
+	margin-top: 5%
+	
+
 }
 .msg-tabela-nao-vazia{
 
 	visibility: collapse;
 	display:none;
-
 
 }
 

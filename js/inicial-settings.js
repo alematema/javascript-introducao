@@ -13,7 +13,7 @@ function atualizarTabelaPacientes(){
       document.querySelector('table').classList.add('invisible-table');
       document.querySelector('.msg-tabela-nao-vazia').classList.add('msg-tabela-vazia');
       document.querySelector('.msg-tabela-vazia').classList.remove('msg-tabela-nao-vazia');
-      document.querySelector('.msg-tabela-vazia').innerHTML="Sem pacientes para exibir. Clique em <strong class=\"botaoAdd\">ADICIONAR</strong>"
+      document.querySelector('.msg-tabela-vazia').innerHTML="Sem pacientes para exibir. Insira dados e clique em <strong class=\"botaoAdd\">ADICIONAR</strong>"
 
     }
 
