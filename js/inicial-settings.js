@@ -8,6 +8,10 @@ function atualizarTabelaPacientes(){
 
   if(!temPacienteNaTabela){
 
+    if(document.querySelector('table').classList.contains('visible-table'))
+
+        document.querySelector('table').classList.remove('visible-table');
+
     if(!document.querySelector('table').classList.contains('invisible-table')){
 
       document.querySelector('table').classList.add('invisible-table');
@@ -19,7 +23,12 @@ function atualizarTabelaPacientes(){
 
   }else{
 
-      document.querySelector('table').classList.remove('invisible-table');
+      if(document.querySelector('table').classList.contains('invisible-table'))
+          document.querySelector('table').classList.remove('invisible-table');
+
+      if(!document.querySelector('table').classList.contains('visible-table'))
+          document.querySelector('table').classList.add('visible-table');
+
 
       if(document.querySelector('.msg-tabela-vazia')!=null){
 

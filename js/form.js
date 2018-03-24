@@ -37,6 +37,7 @@ botaoAdicionar.addEventListener('click',function(event){
 
   limparFormulario(form);
 
+
   });
 
 //CRUD
@@ -77,7 +78,7 @@ function handlePrepararUpdate(event){
   //permite trocar usuarios para update
   //reabilita exclusao do ultimo paciente
   //se esta se tentando editar o mesmo paciente que o
-  //do click anterior, reseta 
+  //do click anterior, reseta
   if(getPacienteTr()!=null){
      enableLixeira(getPacienteTr());
      if(getPacienteTr() == pacienteTr){
